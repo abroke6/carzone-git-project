@@ -1,18 +1,20 @@
-from django.shortcuts import get_object_or_404, render
+  
+from django.shortcuts import render, get_object_or_404
 from .models import Car
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 # Create your views here.
-
 def cars(request):
-    cars = Car.objects.order_by('created_date')
+    cars = Car.objects.order_by('-created_date')
     paginator = Paginator(cars, 4)
     page = request.GET.get('page')
     paged_cars = paginator.get_page(page)
+
     model_search = Car.objects.values_list('model', flat=True).distinct()
     city_search = Car.objects.values_list('city', flat=True).distinct()
     year_search = Car.objects.values_list('year', flat=True).distinct()
     body_style_search = Car.objects.values_list('body_style', flat=True).distinct()
+
     data = {
         'cars': paged_cars,
         'model_search': model_search,
@@ -28,12 +30,12 @@ def car_detail(request, id):
     data = {
         'single_car': single_car,
     }
-
     return render(request, 'cars/car_detail.html', data)
 
 
 def search(request):
     cars = Car.objects.order_by('-created_date')
+
     model_search = Car.objects.values_list('model', flat=True).distinct()
     city_search = Car.objects.values_list('city', flat=True).distinct()
     year_search = Car.objects.values_list('year', flat=True).distinct()
@@ -44,7 +46,7 @@ def search(request):
         keyword = request.GET['keyword']
         if keyword:
             cars = cars.filter(description__icontains=keyword)
-    
+
     if 'model' in request.GET:
         model = request.GET['model']
         if model:
@@ -65,11 +67,6 @@ def search(request):
         if body_style:
             cars = cars.filter(body_style__iexact=body_style)
 
-    if 'transmission' in request.GET:
-        transmission = request.GET['transmission']
-        if transmission:
-            cars = cars.filter(transmission__iexact=transmission)
-    
     if 'min_price' in request.GET:
         min_price = request.GET['min_price']
         max_price = request.GET['max_price']
