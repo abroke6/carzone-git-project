@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n9z3rx2-vuc&4(o$)dk-9!2x7$7@7!w1hgur&tem60r+ekl!)d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['immense-refuge-12631.herokuapp.com']
 
 LOGIN_REDIRECT_URL = 'dashboard'
 
@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     # Providers
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
